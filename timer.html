@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang='ru-RU'>
+<head>
+    <meta charset='UTF-8'>
+    <title>Тренировочная зона</title>
+    <link rel='stylesheet' href='styles/style.css'>
+    <link rel='icon' href='favicon.ico'>
+    <script src="scripts/NoSleep.js"></script>
+    <script>
+        var noSleep = new NoSleep();
+        var noSleepPresnt = false;
+        var context = new window.AudioContext();
+        var startDrop = ['Старт', 'Сброс'];
+        var pauseContinue = ['Пауза', 'Продолжить'];
+        var programs = [
+            ['Сила III-IV', 6, 5, 120, '', 6, 5, 120, '', 6, 5, 120, '', 6, 5, 120, ''],
+            ['Сила I', 4, 5, 120, '', 4, 5, 120, '', 4, 5, 120, '', 4, 5, 120, ''],
+            ['Гибкость x 4', 4, 2, 60, '', 4, 2, 60, '', 4, 2, 80, '', 4, 2, 80, ''],
+            ['Гибкость x 3', 3, 2, 60, '', 3, 2, 60, '', 3, 2, 80, '', 3, 2, 60, '', 6, 2, 60, ''],
+            ['Гибкость x 2', 2, 2, 60, '', 2, 2, 60, '', 2, 2, 80, '', 2, 2, 60, '', 12, 2, 60, ''],
+            ['Сила - вис III', 4, 2, 120, '', 4, 6, 162, ''],
+            ['Сила - вис IV', 6, 5, 120, '', 4, 5, 120, '', 4, 6, 162, '', 6, 5, 120],
+            ['Сила - мостик VI', 4, 2, 60, '', 4, 5, 120, '', 6, 5, 120, '', 4, 5, 120]
+        ]; //
+        var itemOfProgram = 0;
+        var itemOfExercise;
+        var numberOfApproach;
+        var secondsTic;
+        var secondsPeek;
+        var seconds; //Текущая секунда
+        var approach; // Текущий подход
+        var pause = false;
+        var start = false;
+        var timerFlag;
+        initialSettings();
+
+        function startTimer() {
+            initialSettings();
+            if (start) {
+                clearInterval(idTimer);
+                start = false;
+                initialSettings();
+                document.getElementById('time').innerHTML = secondsPeek;
+                document.getElementById('approach').innerHTML = approach;
+                document.getElementById('start').value = startDrop[0];
+                document.getElementById('pause').disabled = 1;
+                document.getElementById('programs').disabled = 0;
+                return;
+            }
+            start = true;
+            pause = false;
+            document.getElementById('start').value = startDrop[1];
+            document.getElementById('pause').disabled = 0;
+            document.getElementById('programs').disabled = 1;
+            timerFlag = false;
+            idTimer = setInterval(function () {
+                if (timerFlag) {
+                    if (!pause) {
+                        seconds--;
+                    }
+                    if (seconds == 0) {
+                        peek();
+                        seconds = secondsPeek;
+                        approach++;
+                        if (approach > numberOfApproach) {
+                            itemOfExercise++;
+                            if (itemOfExercise >= (programs[itemOfProgram].length - 1) / 4) {
+                                document.getElementById('time').innerHTML = 'Всё';
+                                document.getElementById('approach').innerHTML = '';
+                                clearInterval(idTimer);
+                                return;
+                            }
+                            numberOfApproach = programs[itemOfProgram][itemOfExercise * 4 + 1];
+                            secondsTic = programs[itemOfProgram][itemOfExercise * 4 + 2];
+                            secondsPeek = programs[itemOfProgram][itemOfExercise * 4 + 3];
+                            seconds = secondsPeek; //Текущая секунда
+                            approach = 1; // Текущий подход
+
+                        }
+                    }
+                    document.getElementById('time').innerHTML = seconds;
+                    document.getElementById('approach').innerHTML = approach;
+                    if ((seconds % secondsTic == 0) && (!pause) && seconds != 0 && seconds < secondsPeek) {
+                        tic();
+                    }
+                } else {
+                    timerFlag = true;
+                }
+
+            }, 1000)
+        }
+
+        function initialSettings() {
+            itemOfExercise = 0;
+            numberOfApproach = programs[itemOfProgram][itemOfExercise + 1];
+            secondsTic = programs[itemOfProgram][itemOfExercise + 2];
+            secondsPeek = programs[itemOfProgram][itemOfExercise + 3];
+            seconds = secondsPeek;
+            approach = 1;
+        }
+
+        function pauseTimer() {
+            if (pause) {
+                document.getElementById('pause').value = 'Пауза';
+                pause = false;
+            }
+            else {
+                document.getElementById('pause').value = 'Продолжить';
+                pause = true;
+            }
+        }
+
+        function programChange() {
+            itemOfProgram++;
+            if (itemOfProgram > programs.length - 1) {
+                itemOfProgram = 0;
+            }
+            numberOfApproach = programs[itemOfProgram][itemOfExercise + 1];
+            secondsTic = programs[itemOfProgram][itemOfExercise + 2];
+            secondsPeek = programs[itemOfProgram][itemOfExercise + 3];
+            document.getElementById('programs').value = programs[itemOfProgram][0];
+            document.getElementById('time').innerHTML = programs[itemOfProgram][3];
+        }
+
+        function peek() {
+            var oscillator = context.createOscillator();
+            var now = context.currentTime;
+            oscillator.type = 'sine';
+            oscillator.frequency.value = 500;
+            oscillator.connect(context.destination);
+            oscillator.start(now);
+            oscillator.stop(now + 1);
+        }
+
+        function tic() {
+            var oscillator = context.createOscillator();
+            var now = context.currentTime;
+            oscillator.type = 'sine';
+            oscillator.frequency.value = 440;
+            oscillator.connect(context.destination);
+            oscillator.start(now);
+            oscillator.stop(now + 0.2);
+        }
+
+        function enableNoSleep() {
+            if (!noSleepPresnt) {
+                noSleep.enable();
+                document.getElementById('sleep').style.color = 'yellow';
+                document.getElementById('sleep').style.backgroundColor = 'blue';
+                document.getElementById('sleep').innerHTML = '☀';
+                noSleepPresnt = true;
+            } else {
+                noSleep.disable();
+                document.getElementById('sleep').style.color = 'aliceblue';
+                document.getElementById('sleep').style.backgroundColor = 'darkslategrey';
+                document.getElementById('sleep').innerHTML = '&#10052';
+                noSleepPresnt = false;
+            }
+        }
+    </script>
+</head>
+<body>
+<div>
+    <div id='time'></div>
+    <div id='approach'></div>
+    <input id='start' type='button' onclick='startTimer()'>
+    <div id='sleep' onclick="enableNoSleep()">&#10052</div>
+    <input id='pause' type='button' disabled onclick='pauseTimer()'>
+    <input id='programs' type='button' onclick='programChange()'>
+</div>
+</body>
+<script>
+    document.getElementById('time').innerHTML = secondsPeek;
+    document.getElementById('approach').innerHTML = approach;
+    document.getElementById('start').value = startDrop[0];
+    document.getElementById('pause').value = pauseContinue[0];
+    document.getElementById('programs').value = programs[itemOfProgram][0];
+</script>
+</html>
