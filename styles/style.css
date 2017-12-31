@@ -14,7 +14,7 @@ body {
 
 div {
     margin: auto;
-    width: 99vw;
+    width: calc(100% - 2px);
     height: 95vh;
     background-color: #98ad13;
     border: #006d00 solid 1px;
@@ -26,10 +26,10 @@ div {
 
 div div {
     border: none;
-    margin: 3.5vh 3vw 0 3vw;
+    margin: 3.5vh 0 0 0;
     background-color: #c1dec9;
     padding: 2vh 3vw auto 3vw;
-    width: 85vw;
+    width: 99vw;
     height: 30vh;
     color: #0808ff;
     font-size: 26vh;
@@ -39,8 +39,8 @@ div div {
 
 input {
     border: none;
-    margin: 1.8vh 0.5vw 0 0.5vw;
-    width: calc((83vw - 10vh)/2);
+    margin: 1.8vh 0 0 0;
+    width: calc((98vw - 10vh)/2);
     height: 10vh;
     background-color: #dcde88;
     text-align: center;
@@ -59,7 +59,7 @@ a, a:active, a:visited {
 }
 
 #programs {
-    width: 85vw;
+    width: 99vw;
 }
 
 #sleep {

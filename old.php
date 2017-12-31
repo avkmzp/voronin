@@ -2,7 +2,8 @@
 session_start();
 if (!$_SESSION['password']) {
     unset($_SESSION['password']);
-    header('Location: index.php');
+    echo 'Получилось!';
+//    header('Location: index.php');
 }
 ?>
 <!DOCTYPE html>

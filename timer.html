@@ -61,8 +61,8 @@
                     if (seconds == 0) {
                         peek();
                         seconds = secondsPeek;
-                        approach++;
-                        if (approach > numberOfApproach) {
+                        approach--;
+                        if (approach < 1) {
                             itemOfExercise++;
                             if (itemOfExercise >= (programs[itemOfProgram].length - 1) / 4) {
                                 document.getElementById('time').innerHTML = 'Всё';
@@ -74,7 +74,7 @@
                             secondsTic = programs[itemOfProgram][itemOfExercise * 4 + 2];
                             secondsPeek = programs[itemOfProgram][itemOfExercise * 4 + 3];
                             seconds = secondsPeek; //Текущая секунда
-                            approach = 1; // Текущий подход
+                            approach = numberOfApproach; // Текущий подход
 
                         }
                     }
@@ -96,7 +96,7 @@
             secondsTic = programs[itemOfProgram][itemOfExercise + 2];
             secondsPeek = programs[itemOfProgram][itemOfExercise + 3];
             seconds = secondsPeek;
-            approach = 1;
+            approach = numberOfApproach;
         }
 
         function pauseTimer() {
@@ -120,6 +120,7 @@
             secondsPeek = programs[itemOfProgram][itemOfExercise + 3];
             document.getElementById('programs').value = programs[itemOfProgram][0];
             document.getElementById('time').innerHTML = programs[itemOfProgram][3];
+            document.getElementById('approach').innerHTML = numberOfApproach;
         }
 
         function peek() {
