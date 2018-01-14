@@ -2,10 +2,12 @@
 <html lang='ru-RU'>
 <head>
     <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <meta name='theme-color' content='#98ad13'>
     <title>Тренировочная зона</title>
-    <link rel='stylesheet' href='styles/style.css'>
+    <link rel='stylesheet' href='styles/style.css?=002'>
     <link rel='icon' href='favicon.ico'>
-    <script src="scripts/NoSleep.js"></script>
+    <script src='scripts/NoSleep.js'></script>
     <script>
         var noSleep = new NoSleep();
         var noSleepPresnt = false;
@@ -13,17 +15,25 @@
         var startDrop = ['Старт', 'Сброс'];
         var pauseContinue = ['Пауза', 'Продолжить'];
         var programs = [
-            ['Сила III-IV', 6, 5, 120, '', 6, 5, 120, '', 6, 5, 120, '', 6, 5, 120, ''],
-            ['Сила I', 4, 5, 120, '', 4, 5, 120, '', 4, 5, 120, '', 4, 5, 120, ''],
+            ['Отжимания I', 4, 5, 120, 'Подъемы ног I', 4, 5, 120, 'Отжимания I'],
+            ['Подтягивания I', 4, 5, 120, 'Подтягивания I', 4, 5, 120, 'Приседания I'],
+            ['Отжимания IV', 1, 5, 120, 'Подъемы ног I', 1, 5, 120, 'Подъемы ног II', 4, 5, 120, 'Подъемы ног IV',
+                1, 5, 120, 'Отжимания I', 1, 5, 120, 'Отжимания II', 4, 5, 120, 'Отжимания IV'],
+            ['Подтягиваня IV', 1, 5, 120, 'Подтягивания I', 1, 5, 120, 'Подтягивания II', 4, 5, 120, 'Подтягивания IV',
+                1, 5, 120, 'Отжимания на п.', 4, 6, 162, 'Вис', 1, 5, 120, 'Приседаня I',
+                1, 5, 120, 'Приседания II', 4, 5, 120, 'Приседания IV'],
+            ['Мостик IV', 4, 5, 120, 'Мостик I', 4, 5, 120, 'Фронт. мост. III'],
             ['Гибкость x 4', 4, 2, 60, '', 4, 2, 60, '', 4, 2, 80, '', 4, 2, 80, ''],
-            ['Гибкость x 3', 3, 2, 60, '', 3, 2, 60, '', 3, 2, 80, '', 3, 2, 60, '', 6, 2, 60, ''],
-            ['Гибкость x 2', 2, 2, 60, '', 2, 2, 60, '', 2, 2, 80, '', 2, 2, 60, '', 12, 2, 60, ''],
+            ['Гибкость x 3', 3, 2, 60, 'Уголок', 3, 2, 60, 'Мостик', 3, 2, 80, 'Скручивания', 1, 2, 50, 'Веревка',
+                3, 6, 140, 'Присед', 1, 2, 20, 'Лягушка'],
+            ['Гибкость x 3m', 3, 2, 60, 'Уголок', 3, 2, 60, 'Мостик', 3, 2, 80, 'Скручивания', 9, 2, 60, 'Дополнительно'],
             ['Сила - вис III', 4, 2, 120, '', 4, 6, 162, ''],
             ['Сила - вис IV', 6, 5, 120, '', 4, 5, 120, '', 4, 6, 162, '', 6, 5, 120],
             ['Сила - мостик VI', 4, 2, 60, '', 4, 5, 120, '', 6, 5, 120, '', 4, 5, 120]
-        ]; //
+        ];
         var itemOfProgram = 0;
         var itemOfExercise;
+        var nameOfExercise;
         var numberOfApproach;
         var secondsTic;
         var secondsPeek;
@@ -58,7 +68,7 @@
                     if (!pause) {
                         seconds--;
                     }
-                    if (seconds == 0) {
+                    if (seconds < 1) {
                         peek();
                         seconds = secondsPeek;
                         approach--;
@@ -70,12 +80,13 @@
                                 clearInterval(idTimer);
                                 return;
                             }
+                            nameOfExercise = programs[itemOfProgram][itemOfExercise * 4 + 4];
+                            document.getElementById('exercise').innerHTML = nameOfExercise;
                             numberOfApproach = programs[itemOfProgram][itemOfExercise * 4 + 1];
                             secondsTic = programs[itemOfProgram][itemOfExercise * 4 + 2];
                             secondsPeek = programs[itemOfProgram][itemOfExercise * 4 + 3];
                             seconds = secondsPeek; //Текущая секунда
                             approach = numberOfApproach; // Текущий подход
-
                         }
                     }
                     document.getElementById('time').innerHTML = seconds;
@@ -95,6 +106,7 @@
             numberOfApproach = programs[itemOfProgram][itemOfExercise + 1];
             secondsTic = programs[itemOfProgram][itemOfExercise + 2];
             secondsPeek = programs[itemOfProgram][itemOfExercise + 3];
+            nameOfExercise = programs[itemOfProgram][itemOfExercise + 4];
             seconds = secondsPeek;
             approach = numberOfApproach;
         }
@@ -118,9 +130,11 @@
             numberOfApproach = programs[itemOfProgram][itemOfExercise + 1];
             secondsTic = programs[itemOfProgram][itemOfExercise + 2];
             secondsPeek = programs[itemOfProgram][itemOfExercise + 3];
+            nameOfExercise = programs[itemOfProgram][itemOfExercise + 4];
             document.getElementById('programs').value = programs[itemOfProgram][0];
             document.getElementById('time').innerHTML = programs[itemOfProgram][3];
             document.getElementById('approach').innerHTML = numberOfApproach;
+            document.getElementById('exercise').innerHTML = nameOfExercise;
         }
 
         function peek() {
@@ -163,6 +177,7 @@
 <body>
 <div>
     <div id='time'></div>
+    <div id='exercise'></div>
     <div id='approach'></div>
     <input id='start' type='button' onclick='startTimer()'>
     <div id='sleep' onclick="enableNoSleep()">&#10052</div>
@@ -172,6 +187,7 @@
 </body>
 <script>
     document.getElementById('time').innerHTML = secondsPeek;
+    document.getElementById('exercise').innerHTML = programs[itemOfProgram][4];
     document.getElementById('approach').innerHTML = approach;
     document.getElementById('start').value = startDrop[0];
     document.getElementById('pause').value = pauseContinue[0];

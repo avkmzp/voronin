@@ -10,29 +10,30 @@ body {
     width: 100%;
     height: 90vh;
     display: flex;
+    flex-wrap: wrap;
 }
 
 div {
     margin: auto;
     width: calc(100% - 2px);
-    height: 95vh;
+    height: 93vh;
     background-color: #98ad13;
     border: #006d00 solid 1px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-content: flex-start;
+    align-content: center;
 }
 
 div div {
     border: none;
-    margin: 3.5vh 0 0 0;
+    margin: 2vh 0 0 0;
     background-color: #c1dec9;
     padding: 2vh 3vw auto 3vw;
     width: 99vw;
-    height: 30vh;
+    height: 21vh;
     color: #0808ff;
-    font-size: 26vh;
+    font-size: 18vh;
     font-weight: 900;
     text-align: center;
 }
@@ -40,7 +41,7 @@ div div {
 input {
     border: none;
     margin: 1.8vh 0 0 0;
-    width: calc((98vw - 10vh)/2);
+    width: calc((98vw - 10vh) / 2);
     height: 10vh;
     background-color: #dcde88;
     text-align: center;
@@ -49,6 +50,13 @@ input {
 
 .tri {
     height: 25vh;
+}
+
+#exercise {
+    height: 10vh;
+    font-size: 6vh;
+    font-weight: normal;
+    color: black;
 }
 
 a, a:active, a:visited {
@@ -60,6 +68,7 @@ a, a:active, a:visited {
 
 #programs {
     width: 99vw;
+    font-size: 6.5vh;
 }
 
 #sleep {
@@ -71,4 +80,14 @@ a, a:active, a:visited {
     background-color: darkslategrey;
     color: aliceblue;
     user-select: none;
+}
+
+.user {
+    padding: 0;
+    height: 10vh;
+    width: 250px;
+}
+
+.user a {
+    margin: 0;
 }

@@ -1,3 +1,4 @@
 RewriteEngine On
 RewriteCond %{HTTP_HOST} ^www.growinghome.ru$ [NC]
-RewriteRule ^(.*)$ http://growinghome.ru/$1 [R=301,L]
+RewriteRule ^(.*)$ https://growinghome.ru/$1 [R=301,L]
+AddType text/cache-manifest .appcache

@@ -8,14 +8,11 @@
  */
 class DBase
 {
-    const DB_NAME = 'database/voronin.db';
-
+    const DB_NAME = 'database/db.sql3';
     public function __construct()
     {
         echo "Rkflskdjflsl";
-        $db = new SQLite3(DB_NAME);
-        $dateTime = time();
-        $ip = $_SERVER['REMOTE_ADDR'];
-        $results = $db->query("INSERT INTO visitors (ip, time) VALUES ($ip, $dateTime)");
+        $db = new SQLite3(self::DB_NAME);
+        $db->query("INSERT INTO users (name, password) VALUES ('Маша1', 'Игуана')");
     }
 }
