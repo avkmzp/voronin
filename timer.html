@@ -13,23 +13,26 @@
         var noSleepPresnt = false;
         var context = new window.AudioContext();
         var startDrop = ['Старт', 'Сброс'];
-        var pauseContinue = ['Пауза', 'Продолжить'];
+        var pauseContinue = ['Пауза', 'Продолжить'];//
         var programs = [
-            ['Отжимания I', 4, 5, 120, 'Подъемы ног I', 4, 5, 120, 'Отжимания I'],
-            ['Подтягивания I', 4, 5, 120, 'Подтягивания I', 4, 5, 120, 'Приседания I'],
-            ['Отжимания IV', 1, 5, 120, 'Подъемы ног I', 1, 5, 120, 'Подъемы ног II', 4, 5, 120, 'Подъемы ног IV',
+            ['Отжимания I', 4, 5, 100, 'Подъемы ног I', 4, 5, 100, 'Отжимания I'],
+            ['Подтягивания I', 4, 5, 100, 'Подтягивания I', 4, 5, 100, 'Приседания I'],
+            ['Отжимания IV',
+                1, 5, 120, 'Подъемы ног I', 1, 5, 120, 'Подъемы ног II', 4, 5, 120, 'Подъемы ног IV',
                 1, 5, 120, 'Отжимания I', 1, 5, 120, 'Отжимания II', 4, 5, 120, 'Отжимания IV'],
-            ['Подтягиваня IV', 1, 5, 120, 'Подтягивания I', 1, 5, 120, 'Подтягивания II', 4, 5, 120, 'Подтягивания IV',
-                1, 5, 120, 'Отжимания на п.', 4, 6, 162, 'Вис', 1, 5, 120, 'Приседаня I',
-                1, 5, 120, 'Приседания II', 4, 5, 120, 'Приседания IV'],
+            ['Подтягивания IV',
+                1, 5, 120, 'Подтягивания I', 1, 5, 120, 'Подтягивания II', 4, 5, 120, 'Подтягивания IV',
+                4, 5, 120, 'Отжимания на п.', 4, 6, 162, 'Вис',
+                1, 5, 120, 'Приседания I', 1, 5, 120, 'Приседания II', 4, 5, 120, 'Приседания IV'],
             ['Мостик IV', 4, 5, 120, 'Мостик I', 4, 5, 120, 'Фронт. мост. III'],
-            ['Гибкость x 4', 4, 2, 60, '', 4, 2, 60, '', 4, 2, 80, '', 4, 2, 80, ''],
-            ['Гибкость x 3', 3, 2, 60, 'Уголок', 3, 2, 60, 'Мостик', 3, 2, 80, 'Скручивания', 1, 2, 50, 'Веревка',
+            ['Гибкость x 4', 4, 2, 60, 'Уголок', 4, 2, 60, 'Мостик', 4, 2, 80, 'Скручивания', 4, 2, 80, 'Ушу'],
+            ['Гибкость x 3',
+                3, 2, 60, 'Уголок', 3, 2, 60, 'Мостик', 3, 2, 80, 'Скручивания', 1, 2, 50, 'Веревка',
                 3, 6, 140, 'Присед', 1, 2, 20, 'Лягушка'],
             ['Гибкость x 3m', 3, 2, 60, 'Уголок', 3, 2, 60, 'Мостик', 3, 2, 80, 'Скручивания', 9, 2, 60, 'Дополнительно'],
-            ['Сила - вис III', 4, 2, 120, '', 4, 6, 162, ''],
-            ['Сила - вис IV', 6, 5, 120, '', 4, 5, 120, '', 4, 6, 162, '', 6, 5, 120],
-            ['Сила - мостик VI', 4, 2, 60, '', 4, 5, 120, '', 6, 5, 120, '', 4, 5, 120]
+            ['Мостик VI',
+                4, 2, 60, 'Лягушка 1/30', 4, 5, 120, 'Ф. мостик (п)', 1, 5, 120, 'Мостик I',
+                1, 5, 120, 'Мостик II', 4, 5, 120, 'Мостик III', 4, 5, 120, 'Ф. мостик (3-4)']
         ];
         var itemOfProgram = 0;
         var itemOfExercise;
@@ -41,6 +44,7 @@
         var approach; // Текущий подход
         var pause = false;
         var start = false;
+        var idTimer;
         var timerFlag;
         initialSettings();
 
@@ -81,7 +85,7 @@
                                 return;
                             }
                             nameOfExercise = programs[itemOfProgram][itemOfExercise * 4 + 4];
-                            document.getElementById('exercise').innerHTML = nameOfExercise;
+                            document.getElementById('exercise').value = nameOfExercise;
                             numberOfApproach = programs[itemOfProgram][itemOfExercise * 4 + 1];
                             secondsTic = programs[itemOfProgram][itemOfExercise * 4 + 2];
                             secondsPeek = programs[itemOfProgram][itemOfExercise * 4 + 3];
@@ -91,7 +95,7 @@
                     }
                     document.getElementById('time').innerHTML = seconds;
                     document.getElementById('approach').innerHTML = approach;
-                    if ((seconds % secondsTic == 0) && (!pause) && seconds != 0 && seconds < secondsPeek) {
+                    if ((seconds % secondsTic === 0) && (!pause) && seconds !== 0 && seconds < secondsPeek) {
                         tic();
                     }
                 } else {
@@ -134,7 +138,11 @@
             document.getElementById('programs').value = programs[itemOfProgram][0];
             document.getElementById('time').innerHTML = programs[itemOfProgram][3];
             document.getElementById('approach').innerHTML = numberOfApproach;
-            document.getElementById('exercise').innerHTML = nameOfExercise;
+            document.getElementById('exercise').value = nameOfExercise;
+        }
+
+        function exerciseChange() {
+
         }
 
         function peek() {
@@ -177,7 +185,7 @@
 <body>
 <div>
     <div id='time'></div>
-    <div id='exercise'></div>
+    <input id='exercise' type='button' onclick='exerciseChange()'>
     <div id='approach'></div>
     <input id='start' type='button' onclick='startTimer()'>
     <div id='sleep' onclick="enableNoSleep()">&#10052</div>
@@ -187,7 +195,7 @@
 </body>
 <script>
     document.getElementById('time').innerHTML = secondsPeek;
-    document.getElementById('exercise').innerHTML = programs[itemOfProgram][4];
+    document.getElementById('exercise').value = programs[itemOfProgram][4];
     document.getElementById('approach').innerHTML = approach;
     document.getElementById('start').value = startDrop[0];
     document.getElementById('pause').value = pauseContinue[0];
