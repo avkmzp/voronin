@@ -16,7 +16,7 @@ body {
 div {
     margin: auto;
     width: calc(100% - 2px);
-    height: 93vh;
+    height: 85vh;
     background-color: #98ad13;
     border: #006d00 solid 1px;
     display: flex;
@@ -27,7 +27,7 @@ div {
 
 div div {
     border: none;
-    margin: 2vh 0 0 0;
+    margin: 1.5vh 0 0 0;
     background-color: #c1dec9;
     padding: 2vh 3vw auto 3vw;
     width: 99vw;
@@ -40,7 +40,8 @@ div div {
 
 input {
     border: none;
-    margin: 1.8vh 0 0 0;
+    margin: 1.5vh 0 0 0;
+    padding: 0;
     width: calc((98vw - 10vh) / 2);
     height: 10vh;
     background-color: #dcde88;
@@ -70,9 +71,13 @@ a, a:active, a:visited {
     width: 99vw;
     font-size: 6.5vh;
 }
+#approach{
+    height: 10vh;
+    font-size: 6.5vh;
+}
 
 #sleep {
-    margin: 1.8vh 0.5vw 0 0.5vw;
+    margin: 1.5vh 0.5vw 0 0.5vw;
     padding: 0;
     height: 10vh;
     width: 10vh;

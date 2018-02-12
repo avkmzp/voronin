@@ -11,7 +11,7 @@ if ($_SERVER['HTTP_HOST'] == NAME_OF_SERVER and !$_SERVER['HTTPS']) {
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <meta name='theme-color' content='#98ad13'>
     <title>Тренировочная зона</title>
-    <link rel='stylesheet' href='//growinghome.ru/styles/style.css?=002'>
+    <link rel='stylesheet' href='styles/style.css?=001'>
     <link rel='icon' href='favicon.ico'>
 </head>
 <body>

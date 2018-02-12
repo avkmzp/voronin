@@ -5,7 +5,7 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <meta name='theme-color' content='#98ad13'>
     <title>Тренировочная зона</title>
-    <link rel='stylesheet' href='styles/style.css?=002'>
+    <link rel='stylesheet' href='styles/style.css?=003'>
     <link rel='icon' href='favicon.ico'>
     <script src='scripts/NoSleep.js'></script>
     <script>
@@ -17,6 +17,18 @@
         var programs = [
             ['Отжимания I', 4, 5, 100, 'Подъемы ног I', 4, 5, 100, 'Отжимания I'],
             ['Подтягивания I', 4, 5, 100, 'Подтягивания I', 4, 5, 100, 'Приседания I'],
+            ['Отжимания II',
+                1, 5, 100, 'Подъемы ног I', 4, 5, 100, 'Подъемы ног II',
+                1, 5, 100, 'Отжимания I', 4, 5, 100, 'Отжимания II'],
+            ['Подтягивания II',
+                1, 5, 100, 'Подтягивания I', 4, 5, 100, 'Подтягивания II',
+                1, 5, 100, 'Приседания I', 4, 5, 100, 'Приседания II'],
+            ['Отжимания II х 5',
+                1, 5, 100, 'Подъемы ног I', 8, 5, 50, 'Подъемы ног II',
+                1, 5, 100, 'Отжимания I', 8, 5, 50, 'Отжимания II'],
+            ['Подтягивания II х 5',
+                1, 5, 100, 'Подтягивания I', 8, 5, 50, 'Подтягивания II',
+                1, 5, 100, 'Приседания I', 8, 5, 50, 'Приседания II'],
             ['Отжимания IV',
                 1, 5, 120, 'Подъемы ног I', 1, 5, 120, 'Подъемы ног II', 4, 5, 120, 'Подъемы ног IV',
                 1, 5, 120, 'Отжимания I', 1, 5, 120, 'Отжимания II', 4, 5, 120, 'Отжимания IV'],
@@ -59,6 +71,7 @@
                 document.getElementById('start').value = startDrop[0];
                 document.getElementById('pause').disabled = 1;
                 document.getElementById('programs').disabled = 0;
+                document.getElementById('exercise').value = programs[itemOfProgram][4];
                 return;
             }
             start = true;
@@ -94,7 +107,7 @@
                         }
                     }
                     document.getElementById('time').innerHTML = seconds;
-                    document.getElementById('approach').innerHTML = approach;
+                    document.getElementById('approach').innerHTML = (numberOfApproach - approach + 1) + '-й, ещё ' + (approach - 1);
                     if ((seconds % secondsTic === 0) && (!pause) && seconds !== 0 && seconds < secondsPeek) {
                         tic();
                     }
@@ -127,6 +140,7 @@
         }
 
         function programChange() {
+            itemOfExercise = 0;
             itemOfProgram++;
             if (itemOfProgram > programs.length - 1) {
                 itemOfProgram = 0;
@@ -134,7 +148,7 @@
             numberOfApproach = programs[itemOfProgram][itemOfExercise + 1];
             secondsTic = programs[itemOfProgram][itemOfExercise + 2];
             secondsPeek = programs[itemOfProgram][itemOfExercise + 3];
-            nameOfExercise = programs[itemOfProgram][itemOfExercise + 4];
+            nameOfExercise = programs[itemOfProgram][itemOfExercise * 4 + 4];
             document.getElementById('programs').value = programs[itemOfProgram][0];
             document.getElementById('time').innerHTML = programs[itemOfProgram][3];
             document.getElementById('approach').innerHTML = numberOfApproach;
@@ -142,6 +156,20 @@
         }
 
         function exerciseChange() {
+            itemOfExercise--;
+            if (itemOfExercise < 0) {
+                itemOfExercise = (programs[itemOfProgram].length - 1) / 4 - 1;
+            }
+            numberOfApproach = programs[itemOfProgram][itemOfExercise * 4 + 1];
+            secondsTic = programs[itemOfProgram][itemOfExercise * 4 + 2];
+            secondsPeek = programs[itemOfProgram][itemOfExercise * 4 + 3];
+            nameOfExercise = programs[itemOfProgram][itemOfExercise * 4 + 4];
+            seconds = secondsPeek;
+            approach = numberOfApproach;
+            document.getElementById('programs').value = programs[itemOfProgram][0];
+            document.getElementById('time').innerHTML = secondsPeek;
+            document.getElementById('approach').innerHTML = numberOfApproach;
+            document.getElementById('exercise').value = nameOfExercise;
 
         }
 
